@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест уровня английского (A1–B1) | Alla.pro_english</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap');
+        body {
+            font-family: 'Comfortaa', 'Comic Sans MS', cursive, sans-serif;
+            background: #f0f9ff;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        h1 { color: #ff6b6b; font-size: 28px; }
+        .progress-bar {
+            width: 100%;
+            background: #e0e0e0;
+            border-radius: 20px;
+            margin: 20px 0;
+            height: 20px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #4ecdc4;
+            width: 0%;
+            transition: 0.3s;
+        }
+        .question-box {
+            background: #fef9e7;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 15px 0;
+            text-align: left;
+        }
+        .question-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .question-number {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .option-btn {
+            background: #fffde7;
+            border: 2px solid #ccc;
+            padding: 12px 20px;
+            border-radius: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            text-align: left;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            color: #333;
+        }
+        .option-btn:hover {
+            border-color: #4ecdc4;
+            background: #fff9c4;
+        }
+        .option-btn.selected {
+            border-color: #4ecdc4;
+            background: #e0f7f5;
+        }
+        .option-btn.correct {
+            border-color: green !important;
+            background: #a9dfbf !important;
+        }
+        .option-btn.wrong {
+            border-color: red !important;
+            background: #f5b7b1 !important;
+        }
+        .feedback {
+            min-height: 30px;
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        button {
+            background: #4ecdc4;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            color: white;
+            cursor: pointer;
+            margin: 8px;
+            transition: 0.3s;
+            font-family: 'Comfortaa', cursive, sans-serif;
+        }
+        button:hover { background: #3bb3a8; }
+        button:disabled { background: #b0b0b0; cursor: not-allowed; }
+        .result {
+            font-size: 22px;
+            margin: 20px;
+        }
+        .stars { font-size: 40px; }
+        .hidden { display: none; }
+        .welcome-logo {
+            font-size: 60px;
+            margin: 20px;
+        }
+        .welcome-text {
+            font-size: 24px;
+            margin: 20px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Приветственный экран -->
+    <div id="welcomeScreen">
+        <div class="welcome-logo">🐻‍🏫</div>
+        <h1>Добро пожаловать на Alla.pro_english!</h1>
+        <p class="welcome-text">
+            Здесь ты можешь проверить свой уровень английского языка от A1 до B1.<br>
+            Ответь на 40 вопросов и узнай свой результат.
+        </p>
+        <button onclick="startTest()">Начать тест 🚀</button>
+    </div>
+
+    <!-- Основной тест (скрыт до старта) -->
+    <div id="quizArea" class="hidden">
+        <h1>📋 Тест английского (A1–B1)</h1>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="question-box">
+            <div class="question-number" id="questionNumber"></div>
+            <div class="question-text" id="questionText"></div>
+            <div class="options" id="optionsContainer"></div>
+        </div>
+        <div class="feedback" id="feedback"></div>
+        <button id="nextBtn" disabled onclick="nextQuestion()">Далее ➡️</button>
+    </div>
+
+    <!-- Экран результатов (скрыт) -->
+    <div id="resultArea" class="hidden">
+        <h2>🎉 Твой результат</h2>
+        <div class="result" id="scoreText"></div>
+        <div class="stars" id="starsDisplay"></div>
+        <p id="levelDescription"></p>
+        <button onclick="restartTest()">Пройти ещё раз 🔄</button>
+    </div>
+</div>
+
+<script>
+    const questions = [
+        // A1 – 10 вопросов
+        { level: "A1", question: "What is your name?", options: ["My name is Tom", "I'm fine", "How are you?", "Goodbye"], correct: 0 },
+        { level: "A1", question: "How are you?", options: ["I'm 10", "I'm fine, thanks", "My name is Anna", "See you"], correct: 1 },
+        { level: "A1", question: "What colour is the sky?", options: ["Green", "Blue", "Red", "Black"], correct: 1 },
+        { level: "A1", question: "How many days are in a week?", options: ["5", "6", "7", "8"], correct: 2 },
+        { level: "A1", question: "She ____ a student.", options: ["am", "is", "are", "be"], correct: 1 },
+        { level: "A1", question: "We ____ from Russia.", options: ["am", "is", "are", "be"], correct: 2 },
+        { level: "A1", question: "What is the opposite of 'hot'?", options: ["Big", "Small", "Cold", "New"], correct: 2 },
+        { level: "A1", question: "Choose the correct word: I have two ____.", options: ["child", "childs", "children", "childen"], correct: 2 },
+        { level: "A1", question: "This is ____ book.", options: ["a", "an", "the", "no article"], correct: 0 },
+        { level: "A1", question: "What do you say when you meet someone?", options: ["Goodbye", "Hello", "Sorry", "Please"], correct: 1 },
+
+        // A2 – 10 вопросов
+        { level: "A2", question: "Last weekend I ____ to the cinema.", options: ["go", "went", "goed", "going"], correct: 1 },
+        { level: "A2", question: "There ____ some milk in the fridge.", options: ["is", "are", "am", "be"], correct: 0 },
+        { level: "A2", question: "She is ____ than her brother.", options: ["tall", "taller", "tallest", "more tall"], correct: 1 },
+        { level: "A2", question: "I ____ a new phone last month.", options: ["buy", "buyed", "bought", "have bought"], correct: 2 },
+        { level: "A2", question: "Could you pass me ____ salt, please?", options: ["a", "an", "the", "no article"], correct: 2 },
+        { level: "A2", question: "We haven't got ____ bread.", options: ["some", "any", "a", "an"], correct: 1 },
+        { level: "A2", question: "What ____ you doing now?", options: ["is", "am", "are", "be"], correct: 2 },
+        { level: "A2", question: "He ____ breakfast at 7 o'clock every day.", options: ["has", "have", "is having", "had"], correct: 0 },
+        { level: "A2", question: "My birthday is ____ May.", options: ["in", "on", "at", "from"], correct: 0 },
+        { level: "A2", question: "Why are you so happy? – Because I ____ the exam!", options: ["pass", "passed", "have passed", "am passing"], correct: 2 },
+
+        // Текст (B1) – 1 текст и 4 вопроса по нему
+        { level: "B1", text: true, passage: "Hi, my name is Sarah. I'm from Canada. I work as a teacher. Last summer, I went to Italy for a holiday. I stayed in a small hotel near the beach. The weather was hot and sunny. I visited many museums and tried Italian food. I think it was the best holiday ever." },
+        { level: "B1", question: "Where is Sarah from?", options: ["USA", "Canada", "Italy", "England"], correct: 1 },
+        { level: "B1", question: "What is her job?", options: ["Doctor", "Teacher", "Tourist", "Student"], correct: 1 },
+        { level: "B1", question: "Where did she go on holiday?", options: ["France", "Spain", "Italy", "Canada"], correct: 2 },
+        { level: "B1", question: "How was the weather during her holiday?", options: ["Rainy", "Cold", "Hot and sunny", "Cloudy"], correct: 2 },
+
+        // Старые B1 – 6 вопросов
+        { level: "B1", question: "If it ____ tomorrow, we will stay at home.", options: ["rains", "will rain", "rained", "raining"], correct: 0 },
+        { level: "B1", question: "This book ____ by my favourite author.", options: ["was written", "written", "writes", "is writing"], correct: 0 },
+        { level: "B1", question: "I've been waiting for you ____ an hour.", options: ["since", "for", "during", "while"], correct: 1 },
+        { level: "B1", question: "You ____ to be more careful.", options: ["should", "must", "ought", "can"], correct: 2 },
+        { level: "B1", question: "By the time we arrived, the train ____.", options: ["left", "has left", "had left", "was leaving"], correct: 2 },
+        { level: "B1", question: "She asked me where ____.", options: ["I live", "do I live", "I lived", "did I lived"], correct: 2 },
+
+        // Новые 10 более сложных вопросов B1
+        { level: "B1", question: "By the time we arrived, the film ____.", options: ["already started", "had already started", "has already started", "was already started"], correct: 1 },
+        { level: "B1", question: "I wish I ____ more time to finish the project.", options: ["have", "had", "will have", "would have"], correct: 1 },
+        { level: "B1", question: "If I were you, I ____ that job.", options: ["will take", "would take", "take", "took"], correct: 1 },
+        { level: "B1", question: "The letter ____ yesterday.", options: ["was sent", "sent", "is sent", "has been sent"], correct: 0 },
+        { level: "B1", question: "She asked me ____ to the party.", options: ["if I was going", "if am I going", "whether I go", "that I was going"], correct: 0 },
+        { level: "B1", question: "I can't stand ____ in long queues.", options: ["to wait", "wait", "waiting", "waited"], correct: 2 },
+        { level: "B1", question: "You look tired. You ____ have a rest.", options: ["should", "must", "could", "would"], correct: 0 },
+        { level: "B1", question: "He's not used to ____ early.", options: ["get up", "getting up", "got up", "gets up"], correct: 1 },
+        { level: "B1", question: "We will go for a picnic unless it ____.", options: ["rains", "will rain", "doesn't rain", "rained"], correct: 0 },
+        { level: "B1", question: "I couldn't find my keys ____.", options: ["anywhere", "nowhere", "somewhere", "everywhere"], correct: 0 }
+    ];
+
+    let shuffledQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let answered = false;
+    let selectedOption = null;
+
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    const quizArea = document.getElementById('quizArea');
+    const resultArea = document.getElementById('resultArea');
+    const questionText = document.getElementById('questionText');
+    const questionNumber = document.getElementById('questionNumber');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const feedback = document.getElementById('feedback');
+    const nextBtn = document.getElementById('nextBtn');
+    const progressFill = document.getElementById('progressFill');
+
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+    }
+
+    function startTest() {
+        // Скрываем приветственный экран, показываем тест
+        welcomeScreen.classList.add('hidden');
+        quizArea.classList.remove('hidden');
+        resultArea.classList.add('hidden');
+
+        // Находим текстовый блок и его вопросы
+        const textBlockIndex = questions.findIndex(q => q.text);
+        const textPassage = questions[textBlockIndex];
+        const textQuestions = questions.slice(textBlockIndex + 1, textBlockIndex + 5);
+        const otherQuestions = questions.filter((q, i) => i < textBlockIndex || i >= textBlockIndex + 5);
+        shuffleArray(otherQuestions);
+        // Вставляем текстовый блок после 10 вопросов
+        const firstPart = otherQuestions.slice(0, 10);
+        const secondPart = otherQuestions.slice(10);
+        shuffledQuestions = [...firstPart, textPassage, ...textQuestions, ...secondPart];
+        currentIndex = 0;
+        score = 0;
+        answered = false;
+        selectedOption = null;
+        showQuestion();
+    }
+
+    function showQuestion() {
+        const q = shuffledQuestions[currentIndex];
+        // Номер вопроса (текстовый блок считаем за "вопрос")
+        questionNumber.textContent = `Вопрос ${currentIndex + 1} из ${shuffledQuestions.length}`;
+
+        if (q.text) {
+            questionText.innerHTML = "📖 Прочитайте текст:<br><br>" + q.passage.replace(/\n/g, "<br>");
+            optionsContainer.innerHTML = '';
+            feedback.textContent = '';
+            nextBtn.disabled = false;
+            nextBtn.textContent = 'Продолжить ➡️';
+            answered = true; // текст не оценивается
+        } else {
+            questionText.textContent = q.question;
+            optionsContainer.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.addEventListener('click', () => selectOption(idx, btn));
+                optionsContainer.appendChild(btn);
+            });
+            feedback.textContent = '';
+            nextBtn.disabled = true;
+            nextBtn.textContent = 'Далее ➡️';
+            answered = false;
+            selectedOption = null;
+        }
+        updateProgress();
+    }
+
+    function selectOption(idx, btn) {
+        if (answered) return;
+        selectedOption = idx;
+        const allOptions = document.querySelectorAll('.option-btn');
+        allOptions.forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        nextBtn.disabled = false;
+    }
+
+    function nextQuestion() {
+        if (!answered && !shuffledQuestions[currentIndex].text) {
+            const q = shuffledQuestions[currentIndex];
+            const allOptions = document.querySelectorAll('.option-btn');
+            allOptions.forEach(b => b.style.pointerEvents = 'none');
+            if (selectedOption !== null && selectedOption === q.correct) {
+                score++;
+                feedback.textContent = '✅ Правильно!';
+                allOptions[selectedOption].classList.add('correct');
+            } else {
+                feedback.textContent = `❌ Неправильно. Правильный ответ: ${q.options[q.correct]}`;
+                if (selectedOption !== null) allOptions[selectedOption].classList.add('wrong');
+                allOptions[q.correct].classList.add('correct');
+            }
+            answered = true;
+            nextBtn.textContent = currentIndex < shuffledQuestions.length - 1 ? 'Следующий вопрос ➡️' : 'Показать результат 🏁';
+        } else {
+            if (currentIndex < shuffledQuestions.length - 1) {
+                currentIndex++;
+                showQuestion();
+            } else {
+                finishTest();
+            }
+        }
+    }
+
+    function finishTest() {
+        quizArea.classList.add('hidden');
+        resultArea.classList.remove('hidden');
+        document.getElementById('scoreText').textContent = `Правильных ответов: ${score} из 40`;
+        let stars = '';
+        let levelDesc = '';
+        if (score <= 15) {
+            stars = '⭐⭐';
+            levelDesc = 'Твой примерный уровень: A1 (Beginner). Ты уже можешь рассказать о себе, но нужно подтянуть базу. Продолжай учить слова и грамматику!';
+        } else if (score <= 30) {
+            stars = '⭐⭐⭐';
+            levelDesc = 'Твой примерный уровень: A2 (Elementary). Ты понимаешь простые тексты и можешь общаться в путешествии. Ещё чуть-чуть — и будет B1!';
+        } else {
+            stars = '⭐⭐⭐⭐⭐';
+            levelDesc = 'Твой примерный уровень: B1 (Intermediate). Ты можешь уверенно говорить на многие темы. Отличный результат!';
+        }
+        document.getElementById('starsDisplay').textContent = stars;
+        document.getElementById('levelDescription').textContent = levelDesc;
+    }
+
+    function updateProgress() {
+        const percent = ((currentIndex + 1) / shuffledQuestions.length) * 100;
+        progressFill.style.width = percent + '%';
+    }
+
+    function restartTest() {
+        // Вернуть приветственный экран
+        resultArea.classList.add('hidden');
+        quizArea.classList.add('hidden');
+        welcomeScreen.classList.remove('hidden');
+    }
+
+    // При загрузке показываем только приветствие
+    welcomeScreen.classList.remove('hidden');
+</script>
+</body>
+</html>
