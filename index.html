@@ -6,118 +6,191 @@
     <title>Тест уровня английского (A1–B1) | Alla.pro_english</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap');
+
         body {
             font-family: 'Comfortaa', 'Comic Sans MS', cursive, sans-serif;
-            background: #f0f9ff;
+            background: linear-gradient(135deg, #fce4ec, #e0f7fa);
             padding: 20px;
             text-align: center;
+            min-height: 100vh;
+            margin: 0;
         }
+
         .container {
             max-width: 700px;
             margin: 0 auto;
             background: #ffffff;
-            border-radius: 25px;
-            padding: 25px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.15), 0 4px 10px rgba(0,0,0,0.1);
+            border: 2px solid #ffb74d;
         }
-        h1 { color: #ff6b6b; font-size: 28px; }
+
+        h1 {
+            color: #ff6b6b;
+            font-size: 32px;
+            text-shadow: 2px 2px 0 #ffe0b2;
+            margin-top: 0;
+        }
+
         .progress-bar {
             width: 100%;
-            background: #e0e0e0;
+            background: #ffe0b2;
             border-radius: 20px;
             margin: 20px 0;
-            height: 20px;
+            height: 22px;
             overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
+
         .progress-fill {
             height: 100%;
-            background: #4ecdc4;
+            background: linear-gradient(90deg, #ff8a65, #ffb74d, #ffd54f);
             width: 0%;
-            transition: 0.3s;
-        }
-        .question-box {
-            background: #fef9e7;
-            padding: 20px;
+            transition: 0.4s ease;
             border-radius: 20px;
+        }
+
+        .question-box {
+            background: #fff8e1;
+            padding: 20px;
+            border-radius: 25px;
             margin: 15px 0;
             text-align: left;
+            border: 2px solid #ffe082;
+            box-shadow: 0 4px 12px rgba(255,160,0,0.15);
         }
+
         .question-text {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
             margin-bottom: 15px;
+            color: #bf360c;
         }
+
         .question-number {
             font-size: 14px;
-            color: #888;
+            color: #ff8a65;
             margin-bottom: 8px;
+            font-weight: bold;
         }
+
         .options {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
+
         .option-btn {
-            background: #fffde7;
-            border: 2px solid #ccc;
-            padding: 12px 20px;
-            border-radius: 15px;
-            font-size: 16px;
+            background: #ffffff;
+            border: 2px solid #ffcc80;
+            padding: 14px 20px;
+            border-radius: 18px;
+            font-size: 17px;
             cursor: pointer;
             transition: 0.2s;
             text-align: left;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 6px rgba(255,112,67,0.2);
             color: #333;
+            background: #fff3e0;
         }
+
         .option-btn:hover {
-            border-color: #4ecdc4;
-            background: #fff9c4;
+            border-color: #ff7043;
+            background: #ffe0b2;
+            transform: translateY(-2px);
         }
+
         .option-btn.selected {
-            border-color: #4ecdc4;
-            background: #e0f7f5;
+            border-color: #ff7043;
+            background: #ffccbc;
         }
+
         .option-btn.correct {
-            border-color: green !important;
-            background: #a9dfbf !important;
+            border-color: #2e7d32 !important;
+            background: #c8e6c9 !important;
         }
+
         .option-btn.wrong {
-            border-color: red !important;
-            background: #f5b7b1 !important;
+            border-color: #b71c1c !important;
+            background: #ffcdd2 !important;
         }
+
         .feedback {
             min-height: 30px;
             margin: 10px 0;
             font-size: 18px;
+            font-weight: bold;
         }
+
         button {
-            background: #4ecdc4;
+            background: #ff7043;
             border: none;
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-size: 18px;
+            padding: 14px 35px;
+            border-radius: 35px;
+            font-size: 20px;
             color: white;
             cursor: pointer;
-            margin: 8px;
+            margin: 10px;
             transition: 0.3s;
             font-family: 'Comfortaa', cursive, sans-serif;
+            box-shadow: 0 4px 10px rgba(255,87,34,0.4);
         }
-        button:hover { background: #3bb3a8; }
-        button:disabled { background: #b0b0b0; cursor: not-allowed; }
+
+        button:hover {
+            background: #f4511e;
+            transform: scale(1.04);
+        }
+
+        button:disabled {
+            background: #bdbdbd;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
         .result {
-            font-size: 22px;
-            margin: 20px;
-        }
-        .stars { font-size: 40px; }
-        .hidden { display: none; }
-        .welcome-logo {
-            font-size: 60px;
-            margin: 20px;
-        }
-        .welcome-text {
             font-size: 24px;
             margin: 20px;
+            color: #d84315;
+        }
+
+        .stars { font-size: 45px; }
+
+        .hidden { display: none; }
+
+        .welcome-logo {
+            font-size: 70px;
+            margin: 20px;
+        }
+
+        .welcome-text {
+            font-size: 26px;
+            margin: 20px;
             line-height: 1.5;
+            color: #bf360c;
+        }
+
+        .welcome-motivation {
+            font-size: 21px;
+            font-style: italic;
+            background: #ffecb3;
+            padding: 18px;
+            border-radius: 20px;
+            display: inline-block;
+            margin: 20px 0;
+            color: #e65100;
+            box-shadow: 0 2px 8px rgba(255,160,0,0.3);
+        }
+
+        .level-advice {
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 20px;
+            text-align: left;
+            background: #fff3e0;
+            padding: 20px;
+            border-radius: 20px;
+            border-left: 6px solid #ff8a65;
         }
     </style>
 </head>
@@ -125,16 +198,19 @@
 <div class="container">
     <!-- Приветственный экран -->
     <div id="welcomeScreen">
-        <div class="welcome-logo">🐻‍🏫</div>
+        <div class="welcome-logo">🐨👩🏽‍💻</div>
         <h1>Добро пожаловать на Alla.pro_english!</h1>
         <p class="welcome-text">
             Здесь ты можешь проверить свой уровень английского языка от A1 до B1.<br>
             Ответь на 40 вопросов и узнай свой результат.
         </p>
+        <p class="welcome-motivation">
+            💡 Помни: даже носители языка когда-то начинали с «Hello» и «Cat».
+        </p>
         <button onclick="startTest()">Начать тест 🚀</button>
     </div>
 
-    <!-- Основной тест (скрыт до старта) -->
+    <!-- Основной тест -->
     <div id="quizArea" class="hidden">
         <h1>📋 Тест английского (A1–B1)</h1>
         <div class="progress-bar">
@@ -149,19 +225,18 @@
         <button id="nextBtn" disabled onclick="nextQuestion()">Далее ➡️</button>
     </div>
 
-    <!-- Экран результатов (скрыт) -->
+    <!-- Экран результатов -->
     <div id="resultArea" class="hidden">
         <h2>🎉 Твой результат</h2>
         <div class="result" id="scoreText"></div>
         <div class="stars" id="starsDisplay"></div>
-        <p id="levelDescription"></p>
+        <div class="level-advice" id="levelDescription"></div>
         <button onclick="restartTest()">Пройти ещё раз 🔄</button>
     </div>
 </div>
 
 <script>
     const questions = [
-        // A1 – 10 вопросов
         { level: "A1", question: "What is your name?", options: ["My name is Tom", "I'm fine", "How are you?", "Goodbye"], correct: 0 },
         { level: "A1", question: "How are you?", options: ["I'm 10", "I'm fine, thanks", "My name is Anna", "See you"], correct: 1 },
         { level: "A1", question: "What colour is the sky?", options: ["Green", "Blue", "Red", "Black"], correct: 1 },
@@ -173,7 +248,6 @@
         { level: "A1", question: "This is ____ book.", options: ["a", "an", "the", "no article"], correct: 0 },
         { level: "A1", question: "What do you say when you meet someone?", options: ["Goodbye", "Hello", "Sorry", "Please"], correct: 1 },
 
-        // A2 – 10 вопросов
         { level: "A2", question: "Last weekend I ____ to the cinema.", options: ["go", "went", "goed", "going"], correct: 1 },
         { level: "A2", question: "There ____ some milk in the fridge.", options: ["is", "are", "am", "be"], correct: 0 },
         { level: "A2", question: "She is ____ than her brother.", options: ["tall", "taller", "tallest", "more tall"], correct: 1 },
@@ -185,14 +259,12 @@
         { level: "A2", question: "My birthday is ____ May.", options: ["in", "on", "at", "from"], correct: 0 },
         { level: "A2", question: "Why are you so happy? – Because I ____ the exam!", options: ["pass", "passed", "have passed", "am passing"], correct: 2 },
 
-        // Текст (B1) – 1 текст и 4 вопроса по нему
         { level: "B1", text: true, passage: "Hi, my name is Sarah. I'm from Canada. I work as a teacher. Last summer, I went to Italy for a holiday. I stayed in a small hotel near the beach. The weather was hot and sunny. I visited many museums and tried Italian food. I think it was the best holiday ever." },
         { level: "B1", question: "Where is Sarah from?", options: ["USA", "Canada", "Italy", "England"], correct: 1 },
         { level: "B1", question: "What is her job?", options: ["Doctor", "Teacher", "Tourist", "Student"], correct: 1 },
         { level: "B1", question: "Where did she go on holiday?", options: ["France", "Spain", "Italy", "Canada"], correct: 2 },
         { level: "B1", question: "How was the weather during her holiday?", options: ["Rainy", "Cold", "Hot and sunny", "Cloudy"], correct: 2 },
 
-        // Старые B1 – 6 вопросов
         { level: "B1", question: "If it ____ tomorrow, we will stay at home.", options: ["rains", "will rain", "rained", "raining"], correct: 0 },
         { level: "B1", question: "This book ____ by my favourite author.", options: ["was written", "written", "writes", "is writing"], correct: 0 },
         { level: "B1", question: "I've been waiting for you ____ an hour.", options: ["since", "for", "during", "while"], correct: 1 },
@@ -200,7 +272,6 @@
         { level: "B1", question: "By the time we arrived, the train ____.", options: ["left", "has left", "had left", "was leaving"], correct: 2 },
         { level: "B1", question: "She asked me where ____.", options: ["I live", "do I live", "I lived", "did I lived"], correct: 2 },
 
-        // Новые 10 более сложных вопросов B1
         { level: "B1", question: "By the time we arrived, the film ____.", options: ["already started", "had already started", "has already started", "was already started"], correct: 1 },
         { level: "B1", question: "I wish I ____ more time to finish the project.", options: ["have", "had", "will have", "would have"], correct: 1 },
         { level: "B1", question: "If I were you, I ____ that job.", options: ["will take", "would take", "take", "took"], correct: 1 },
@@ -237,18 +308,15 @@
     }
 
     function startTest() {
-        // Скрываем приветственный экран, показываем тест
         welcomeScreen.classList.add('hidden');
         quizArea.classList.remove('hidden');
         resultArea.classList.add('hidden');
 
-        // Находим текстовый блок и его вопросы
         const textBlockIndex = questions.findIndex(q => q.text);
         const textPassage = questions[textBlockIndex];
         const textQuestions = questions.slice(textBlockIndex + 1, textBlockIndex + 5);
         const otherQuestions = questions.filter((q, i) => i < textBlockIndex || i >= textBlockIndex + 5);
         shuffleArray(otherQuestions);
-        // Вставляем текстовый блок после 10 вопросов
         const firstPart = otherQuestions.slice(0, 10);
         const secondPart = otherQuestions.slice(10);
         shuffledQuestions = [...firstPart, textPassage, ...textQuestions, ...secondPart];
@@ -261,7 +329,6 @@
 
     function showQuestion() {
         const q = shuffledQuestions[currentIndex];
-        // Номер вопроса (текстовый блок считаем за "вопрос")
         questionNumber.textContent = `Вопрос ${currentIndex + 1} из ${shuffledQuestions.length}`;
 
         if (q.text) {
@@ -270,7 +337,7 @@
             feedback.textContent = '';
             nextBtn.disabled = false;
             nextBtn.textContent = 'Продолжить ➡️';
-            answered = true; // текст не оценивается
+            answered = true;
         } else {
             questionText.textContent = q.question;
             optionsContainer.innerHTML = '';
@@ -293,8 +360,7 @@
     function selectOption(idx, btn) {
         if (answered) return;
         selectedOption = idx;
-        const allOptions = document.querySelectorAll('.option-btn');
-        allOptions.forEach(b => b.classList.remove('selected'));
+        document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         nextBtn.disabled = false;
     }
@@ -331,15 +397,15 @@
         document.getElementById('scoreText').textContent = `Правильных ответов: ${score} из 40`;
         let stars = '';
         let levelDesc = '';
-        if (score <= 15) {
+        if (score < 15) {
             stars = '⭐⭐';
-            levelDesc = 'Твой примерный уровень: A1 (Beginner). Ты уже можешь рассказать о себе, но нужно подтянуть базу. Продолжай учить слова и грамматику!';
-        } else if (score <= 30) {
+            levelDesc = 'Уровень А1 Beginner — это начальный уровень английского языка, первая ступень знаний. Сейчас ты можешь использовать и понимать простые выражения и фразы для повседневных нужд, представлять себя, и отвечать на базовые вопросы о времени и маршрутах. Главное — маленькие шаги каждый день. У тебя всё получится!';
+        } else if (score <= 33) {
             stars = '⭐⭐⭐';
-            levelDesc = 'Твой примерный уровень: A2 (Elementary). Ты понимаешь простые тексты и можешь общаться в путешествии. Ещё чуть-чуть — и будет B1!';
+            levelDesc = 'Уровень A2 Elementary - элементарный уровень. Ты можешь общаться в простых ситуациях, требующих непосредственного обмена информацией, описывать семью, и рассказывать о своих хобби. Пусть английский станет для тебя интересным путешествием, а не тяжёлой работой.';
         } else {
             stars = '⭐⭐⭐⭐⭐';
-            levelDesc = 'Твой примерный уровень: B1 (Intermediate). Ты можешь уверенно говорить на многие темы. Отличный результат!';
+            levelDesc = 'Уровень B1 Intermediate - средний уровень. У тебя есть понимание основных моментов в стандартных ситуациях, связанных с работой, учёбой и досугом, ты можешь писать простые письма, участвовать в повседневных разговорах. Пусть твой B1 незаметно перетечёт в B2 — без стресса и выгорания.';
         }
         document.getElementById('starsDisplay').textContent = stars;
         document.getElementById('levelDescription').textContent = levelDesc;
@@ -351,13 +417,11 @@
     }
 
     function restartTest() {
-        // Вернуть приветственный экран
         resultArea.classList.add('hidden');
         quizArea.classList.add('hidden');
         welcomeScreen.classList.remove('hidden');
     }
 
-    // При загрузке показываем только приветствие
     welcomeScreen.classList.remove('hidden');
 </script>
 </body>
